@@ -13,7 +13,7 @@
         android:padding="@dimen/padding1">
 
         <EditText
-            android:id="@+id/user_name"
+            android:id="@+id/txtMobileNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Mobile Number"
@@ -26,7 +26,7 @@
 
         <!--android:text="pprasoon"-->
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/txtOtpPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter OTP"

@@ -9,9 +9,6 @@ import android.widget.ProgressBar;
 
 import com.example.mypulz.R;
 
-import DataProvider.SecurityDataProvider;
-import Interface.HttpCallback;
-
 
 public class SplashActivity extends Activity {
 
@@ -65,23 +62,7 @@ public class SplashActivity extends Activity {
 
     }
     private void httpServiceCall() {
-        HttpServiceCallInit = new AsyncTask() {
-            @Nullable
-            @Override
-            protected Object doInBackground(Object[] params) {
-                SecurityDataProvider.Init(activity,"", new HttpCallback() {
-                    @Override
-                    public void callbackFailure(Object result) {
-                        System.out.println(result);
-                    }
-                    @Override
-                    public void callbackSuccess(Object result) {
-                        System.out.println(result);
-                    }
-                });
-                return null;
-            }
-        };
+
     }
 }
 

@@ -3,14 +3,10 @@ package com.example.mypulz.UICore.Security;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.mypulz.R;
-
-import DataProvider.SecurityDataProvider;
-import Interface.HttpCallback;
 
 public class SignupActivity extends Activity {
 
@@ -53,22 +49,6 @@ public class SignupActivity extends Activity {
 
 
     private void httpServiceCall() {
-        HttpServiceCallInit = new AsyncTask() {
-            @Nullable
-            @Override
-            protected Object doInBackground(Object[] params) {
-                SecurityDataProvider.Init(activity,"", new HttpCallback() {
-                    @Override
-                    public void callbackFailure(Object result) {
-                        System.out.println(result);
-                    }
-                    @Override
-                    public void callbackSuccess(Object result) {
-                        System.out.println(result);
-                    }
-                });
-                return null;
-            }
-        };
+
     }
 }

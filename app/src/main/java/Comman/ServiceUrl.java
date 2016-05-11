@@ -8,7 +8,7 @@ import android.support.annotation.NonNull;
 public class ServiceUrl {
 
     @NonNull
-    public static String ServerUrl = "http://restaurantfinder.ro/rfapp/RF_admin_api/index.php?admin_api/";
+    public static String ServerUrl = "http://w3tutorialschool.com";
     @NonNull
-    public static String Init = ServerUrl + "init" ;
+    public static String Login = ServerUrl + "/clients/test_server/mypulz/web/site/customer-login";
 }

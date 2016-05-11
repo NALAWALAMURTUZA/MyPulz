@@ -8,7 +8,8 @@ import android.support.annotation.NonNull;
 public class Constant {
 
     @NonNull
-    public static String MethodName = "POST";
+    public static String MethodNamePost = "POST";
+    public static String MethodNameGet = "POST";
     public static class Preference
     {
         @NonNull

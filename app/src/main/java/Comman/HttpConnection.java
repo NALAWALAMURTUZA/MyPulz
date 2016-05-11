@@ -46,7 +46,9 @@ public class  HttpConnection  {
             HttpPost httppostreq = new HttpPost(Url);
             httppostreq.setHeader("Accept", "application/json");
             httppostreq.setHeader("Content-type", "application/json");
-            httppostreq.setEntity(new StringEntity(InputString, "UTF-8"));
+            if(Method == Constant.MethodNamePost) {
+                httppostreq.setEntity(new StringEntity(InputString, "UTF-8"));
+            }
             HttpResponse httpresponse = httpclient.execute(httppostreq);
             StatusLine statusLine = httpresponse.getStatusLine();
             if (statusLine.getStatusCode() == 200) {

@@ -15,8 +15,8 @@ import Interface.HttpCallback;
 
 public class SecurityDataProvider {
 
-    public static void Init(Activity activity, String inputString, @NonNull HttpCallback callback) {
+    public static void Login(Activity activity, String InputString, @NonNull HttpCallback callback) {
         // Run callback callback.run();
-        HttpConnection.HttpConnect(activity,ServiceUrl.Init,1000,inputString, Constant.MethodName,callback);
+        HttpConnection.HttpConnect(activity,ServiceUrl.Login + "/" + InputString,1000,"", Constant.MethodNameGet,callback);
     }
 }
