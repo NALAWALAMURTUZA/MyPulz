@@ -3,9 +3,9 @@ package DataProvider;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import Comman.Constant;
-import Comman.HttpConnection;
-import Comman.ServiceUrl;
+import Common.Constant;
+import Common.HttpConnection;
+import Common.ServiceUrl;
 import Interface.HttpCallback;
 
 /**
