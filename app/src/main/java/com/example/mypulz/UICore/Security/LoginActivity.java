@@ -90,7 +90,6 @@ public class LoginActivity extends Activity {
         HttpServiceCallLogin = new AsyncTask() {
             JSONObject response;
             String loginPostModel = LoginModel.LoginPostModel(txtMobileNumber.getText().toString(),txtOtpPassword.getText().toString());
-
             @Override
             protected Object doInBackground(Object[] params) {
                 SecurityDataProvider.Login(activity,loginPostModel, new HttpCallback() {
@@ -111,17 +110,12 @@ public class LoginActivity extends Activity {
                                     if (response.getString("status") == "1") {
                                         if (response.has("message")) {
                                             String Message = response.getString("message");
-//                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
-
                                             /** Parse Json Array Using Common Function**/
                                             jsonArray_customer_detail = new CommonFunction().parseJsonArray(Constant.TAG_jArray_customer_detail, response);
                                             jsonArray_category = new CommonFunction().parseJsonArray(Constant.TAG_jArray_category, response);
-
-
                                             /** Save array in preference as string Using Common Function**/
                                             new CommonFunction().saveSharedPreference(Constant.TAG_jArray_customer_detail, jsonArray_customer_detail.toString(), activity);
                                             new CommonFunction().saveSharedPreference(Constant.TAG_jArray_category, jsonArray_category.toString(), activity);
-
                                         }
                                         Intent i = new Intent(LoginActivity.this, HomeScreen.class);
                                         startActivity(i);
