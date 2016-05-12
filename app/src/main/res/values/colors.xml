@@ -13,5 +13,6 @@
     <color name="ripple">#248F24</color>
     <color name="accent">#248F24</color>
     <color name="accent_pressed">#70DB70</color>
+    <color name="white">#ffffff</color>
 
 </resources>

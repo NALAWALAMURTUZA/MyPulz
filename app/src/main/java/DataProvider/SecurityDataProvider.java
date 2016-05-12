@@ -3,9 +3,12 @@ package DataProvider;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import Comman.Constant;
-import Comman.HttpConnection;
-import Comman.ServiceUrl;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
+import Common.Constant;
+import Common.HttpConnection;
+import Common.ServiceUrl;
 import Interface.HttpCallback;
 
 /**
@@ -17,6 +20,19 @@ public class SecurityDataProvider {
 
     public static void Login(Activity activity, String InputString, @NonNull HttpCallback callback) {
         // Run callback callback.run();
-        HttpConnection.HttpConnect(activity,ServiceUrl.Login + "/" + InputString,1000,"", Constant.MethodNameGet,callback);
+        try {
+            HttpConnection.HttpConnect(activity,ServiceUrl.Login + "/?body=" + URLEncoder.encode(InputString,"UTF-8"),1000,"", Constant.MethodNameGet,callback);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void Signup(Activity activity, String InputString, @NonNull HttpCallback callback) {
+        // Run callback callback.run();
+        try {
+            HttpConnection.HttpConnect(activity,ServiceUrl.Login + "/?body=" + URLEncoder.encode(InputString,"UTF-8"),1000,"", Constant.MethodNameGet,callback);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
     }
 }

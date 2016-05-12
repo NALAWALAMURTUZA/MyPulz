@@ -1,4 +1,4 @@
-package Comman;
+package Common;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -8,8 +8,8 @@ import android.support.annotation.Nullable;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
@@ -42,18 +42,37 @@ public class  HttpConnection  {
     {
         String responseText = null;
         try {
-            DefaultHttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppostreq = new HttpPost(Url);
-            httppostreq.setHeader("Accept", "application/json");
-            httppostreq.setHeader("Content-type", "application/json");
-            if(Method == Constant.MethodNamePost) {
-                httppostreq.setEntity(new StringEntity(InputString, "UTF-8"));
-            }
-            HttpResponse httpresponse = httpclient.execute(httppostreq);
+
+
+//            // create HttpClient
+//            HttpClient httpclient = new DefaultHttpClient();
+//
+//            // make GET request to the given URL
+//            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+//
+//            // receive response as inputStream
+//            inputStream = httpResponse.getEntity().getContent();
+//
+//            // convert inputstream to string
+//            if(inputStream != null)
+//                result = convertInputStreamToString(inputStream);
+//            else
+//                result = "Did not work!";
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(Url);
+            //HttpPost httppostreq = new HttpPost(Url);
+            httpGet.setHeader("Accept", "application/json");
+            httpGet.setHeader("Content-type", "application/json");
+//            if(Method == Constant.MethodNameGet) {
+//                httppostreq.setEntity(new StringEntity(InputString, "UTF-8"));
+//            }
+
+            HttpResponse httpresponse = httpclient.execute(httpGet);
             StatusLine statusLine = httpresponse.getStatusLine();
             if (statusLine.getStatusCode() == 200) {
                 try {
                     responseText = EntityUtils.toString(httpresponse.getEntity(), "UTF-8");
+                    System.out.println("!!!!pankaj_responseText"+responseText);
                     callback.callbackSuccess(responseText.substring(responseText.indexOf("{"), responseText.lastIndexOf("}") + 1));
                 } catch (NullPointerException np) {
                     callback.callbackFailure(np);
