@@ -1,7 +1,6 @@
 package com.example.mypulz.UICore.Security;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,13 +8,10 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.mypulz.R;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import Common.CommonFunction;
 import Common.Constant;
 import DataProvider.SecurityDataProvider;
@@ -90,18 +86,10 @@ public class LoginActivity extends Activity {
         return  flag;
     }
     private void httpServiceCall() {
-
+        CommonFunction.showActivitityIndicater(activity,getResources().getString(R.string.title_for_activityIndicater));
         HttpServiceCallLogin = new AsyncTask() {
             JSONObject response;
             String loginPostModel = LoginModel.LoginPostModel(txtMobileNumber.getText().toString(),txtOtpPassword.getText().toString());
-            ProgressDialog p = new ProgressDialog(activity);
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                p.setMessage("Please wait");
-                p.setCancelable(false);
-                p.show();
-            }
 
             @Override
             protected Object doInBackground(Object[] params) {
@@ -112,9 +100,44 @@ public class LoginActivity extends Activity {
                     }
                     @Override
                     public void callbackSuccess(Object result) {
+                        CommonFunction.HideActivitityIndicater(activity);
                         System.out.println(result);
                         try {
                             response = new JSONObject(result.toString());
+                            JSONArray jsonArray_customer_detail,jsonArray_category;
+                            System.out.println("pankaj"+response);
+                            try {
+                                if(response.has("status")) {
+                                    if (response.getString("status") == "1") {
+                                        if (response.has("message")) {
+                                            String Message = response.getString("message");
+//                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
+
+                                            /** Parse Json Array Using Common Function**/
+                                            jsonArray_customer_detail = new CommonFunction().parseJsonArray(Constant.TAG_jArray_customer_detail, response);
+                                            jsonArray_category = new CommonFunction().parseJsonArray(Constant.TAG_jArray_category, response);
+
+
+                                            /** Save array in preference as string Using Common Function**/
+                                            new CommonFunction().saveSharedPreference(Constant.TAG_jArray_customer_detail, jsonArray_customer_detail.toString(), activity);
+                                            new CommonFunction().saveSharedPreference(Constant.TAG_jArray_category, jsonArray_category.toString(), activity);
+
+                                        }
+                                        Intent i = new Intent(LoginActivity.this, HomeScreen.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
+                                }
+                                else if(response.has("status") && response.getString("status")=="0")
+                                {
+                                    if(response.has("message")) {
+                                        String Message = response.getString("message");
+                                        new CommonFunction().showAlertDialog(Message,"Testing",activity);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -124,58 +147,6 @@ public class LoginActivity extends Activity {
                 return null;
             }
 
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-
-                JSONArray jsonArray_customer_detail,jsonArray_category;
-
-                if(p.isShowing())
-                {
-                    p.dismiss();
-                }
-
-                System.out.println("pankaj"+response);
-                try {
-
-                    if(response.has("status")) {
-                        if (response.getString("status") == "1") {
-                            if (response.has("message")) {
-                                String Message = response.getString("message");
-//                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
-
-                                /** Parse Json Array Using Common Function**/
-                                jsonArray_customer_detail = new CommonFunction().parseJsonArray(Constant.TAG_jArray_customer_detail, response);
-                                jsonArray_category = new CommonFunction().parseJsonArray(Constant.TAG_jArray_category, response);
-
-
-                                /** Save array in preference as string Using Common Function**/
-                                new CommonFunction().saveSharedPreference(Constant.TAG_jArray_customer_detail, jsonArray_customer_detail.toString(), activity);
-                                new CommonFunction().saveSharedPreference(Constant.TAG_jArray_category, jsonArray_category.toString(), activity);
-
-
-                                /** Get data from preference Using Common Function**/
-//                            new CommonFunction().getSharedPreference(Constant.TAG_jArray_customer_detail,activity);
-//                            new CommonFunction().showAlertDialog(new CommonFunction().getSharedPreference(Constant.TAG_jArray_customer_detail,activity),"Customer Detail",activity);
-
-                            }
-                            Intent i = new Intent(LoginActivity.this, HomeScreen.class);
-                            startActivity(i);
-                            finish();
-                        }
-                    }
-                    else if(response.has("status") && response.getString("status")=="0")
-                    {
-                        if(response.has("message")) {
-                            String Message = response.getString("message");
-                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
         };
     }
 

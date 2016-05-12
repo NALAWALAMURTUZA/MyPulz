@@ -1,6 +1,8 @@
 package Common;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -19,7 +21,7 @@ public class CommonFunction {
 
     public String alertMessage = "Alert";
     public String please_syncMessage = "Please Upload offline data";
-
+    public static ProgressDialog p = null;
     public void showAlertDialog(String Message, String title, Context context) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
@@ -76,6 +78,17 @@ public class CommonFunction {
         return matcher.matches();
     }
 
+    public static void showActivitityIndicater(Activity activity,String Message)
+    {
+        p = new ProgressDialog(activity);
+        p.setMessage(Message);
+        p.setCancelable(false);
+        p.show();
+    }
+    public static void HideActivitityIndicater(Activity activity)
+    {
+        p.dismiss();
+    }
 
 
 
