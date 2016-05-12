@@ -6,7 +6,6 @@ package Model;
 final class InitGetModel<T> {
 
     Class <T> country;
-
     private InitGetModel()
     {
 
@@ -15,7 +14,6 @@ final class InitGetModel<T> {
     {
         this.country = country;
     }
-
 }
 final class Country
 {

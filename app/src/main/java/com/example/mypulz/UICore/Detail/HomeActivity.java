@@ -1,4 +1,4 @@
-package com.example.mypulz.UICore.Security;
+package com.example.mypulz.UICore.Detail;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.mypulz.R;
+import com.example.mypulz.UICore.Security.LoginActivity;
 
 
 public class HomeActivity extends AppCompatActivity

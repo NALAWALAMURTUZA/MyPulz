@@ -42,7 +42,8 @@
         <activity android:name=".UICore.Security.MyProfile" />
         <activity
             android:name=".UICore.Security.Review"
-            android:label="@string/title_activity_review"></activity>
+            android:label="@string/title_activity_review" />
+        <activity android:name=".UICore.Detail.DetailActivity"></activity>
     </application>
 
 </manifest>
