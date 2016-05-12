@@ -1,4 +1,4 @@
-package com.example.mypulz.UICore.Detail;
+package com.example.mypulz.UICore.Security;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -31,7 +31,7 @@ public class SplashActivity extends Activity {
         activity = this;
         setView();
         setData();
-        httpServiceCall();
+       // httpServiceCall();
         //HttpServiceCallInit.execute(null);
         reDirection();
     }

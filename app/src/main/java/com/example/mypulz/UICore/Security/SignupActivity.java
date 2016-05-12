@@ -1,7 +1,6 @@
 package com.example.mypulz.UICore.Security;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import Common.CommonFunction;
-import Common.Constant;
 import DataProvider.SecurityDataProvider;
 import Interface.HttpCallback;
 import Model.LoginModel;
@@ -28,7 +26,7 @@ import Model.LoginModel;
 public class SignupActivity extends Activity {
 
     Activity activity = null;
-    AsyncTask HttpServiceCallInit = null;
+    AsyncTask HttpServiceCallSignup = null;
     RadioGroup radioUserType;
     RadioButton radioSelectedType;
     EditText edt_first_name,edt_last_name, edt_mobile_number,edt_email_address;
@@ -72,7 +70,7 @@ public class SignupActivity extends Activity {
 //                    Toast.makeText(SignupActivity.this,
 //                            radioSelectedType.getText().toString()+" is selected", Toast.LENGTH_SHORT).show();
                     httpServiceCall();
-//                    HttpServiceCallLogin.execute(null);
+                    HttpServiceCallSignup.execute(null);
                 }
 
             }
@@ -128,8 +126,8 @@ public class SignupActivity extends Activity {
 
 
     private void httpServiceCall() {
-
-        HttpServiceCallInit = new AsyncTask() {
+        CommonFunction.showActivitityIndicater(activity,getResources().getString(R.string.title_for_activityIndicater));
+        HttpServiceCallSignup = new AsyncTask() {
             JSONObject response;
 
             String signupGetModel = LoginModel.SignupGetModel(edt_first_name.getText().toString(),
@@ -137,14 +135,6 @@ public class SignupActivity extends Activity {
                                                               edt_mobile_number.getText().toString(),
                                                               edt_email_address.getText().toString(),
                                                               radioSelectedType.getText().toString());
-            ProgressDialog p = new ProgressDialog(activity);
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                p.setMessage("Please wait");
-                p.setCancelable(false);
-                p.show();
-            }
 
             @Override
             protected Object doInBackground(Object[] params) {
@@ -156,9 +146,34 @@ public class SignupActivity extends Activity {
                     @Override
                     public void callbackSuccess(Object result) {
                         System.out.println(result);
+                        CommonFunction.HideActivitityIndicater(activity);
                         try {
                             response = new JSONObject(result.toString());
+                            JSONArray jsonArray_customer_detail,jsonArray_category;
+                            System.out.println("pankaj"+response);
+                            try {
 
+                                if(response.has("status") && response.getString("status")=="1")
+                                {
+                                    if(response.has("message"))
+                                    {
+                                        String Message = response.getString("message");
+                                        new CommonFunction().showAlertDialog(Message,"Testing",activity);
+                                    }
+                                    Intent i = new Intent(SignupActivity.this,LoginActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }
+                                else if(response.has("status") && response.getString("status")=="0")
+                                {
+                                    if(response.has("message")) {
+                                        String Message = response.getString("message");
+                                        new CommonFunction().showAlertDialog(Message,"Testing",activity);
+                                    }
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -167,58 +182,6 @@ public class SignupActivity extends Activity {
                 return null;
             }
 
-            @Override
-            protected void onPostExecute(Object o) {
-                super.onPostExecute(o);
-
-                JSONArray jsonArray_customer_detail,jsonArray_category;
-
-                if(p.isShowing())
-                {
-                    p.dismiss();
-                }
-
-                System.out.println("pankaj"+response);
-                try {
-
-                    if(response.has("status") && response.getString("status")=="1")
-                    {
-                        if(response.has("message"))
-                        {
-                            String Message = response.getString("message");
-                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
-
-//                            /** Parse Json Array Using Common Function**/
-//                            jsonArray_customer_detail = new CommonFunction().parseJsonArray(Constant.TAG_jArray_customer_detail,response);
-//                            jsonArray_category = new CommonFunction().parseJsonArray(Constant.TAG_jArray_category,response);
-//
-//
-//                            /** Save array in preference as string Using Common Function**/
-//                            new CommonFunction().saveSharedPreference(Constant.TAG_jArray_customer_detail,jsonArray_customer_detail.toString(),activity);
-//                            new CommonFunction().saveSharedPreference(Constant.TAG_jArray_category,jsonArray_category.toString(),activity);
-
-
-                            /** Get data from preference Using Common Function**/
-//                            new CommonFunction().getSharedPreference(Constant.TAG_jArray_customer_detail,activity);
-//                            new CommonFunction().showAlertDialog(new CommonFunction().getSharedPreference(Constant.TAG_jArray_customer_detail,activity),"Customer Detail",activity);
-
-                        }
-                        Intent i = new Intent(SignupActivity.this,LoginActivity.class);
-                        startActivity(i);
-                        finish();
-                    }
-                    else if(response.has("status") && response.getString("status")=="0")
-                    {
-                        if(response.has("message")) {
-                            String Message = response.getString("message");
-                            new CommonFunction().showAlertDialog(Message,"Testing",activity);
-                        }
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
         };
     }
 }

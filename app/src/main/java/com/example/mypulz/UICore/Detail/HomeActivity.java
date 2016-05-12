@@ -19,6 +19,7 @@ import android.webkit.WebViewClient;
 
 import com.example.mypulz.R;
 import com.example.mypulz.UICore.Security.LoginActivity;
+import com.example.mypulz.UICore.Security.ProfileActivity;
 
 
 public class HomeActivity extends AppCompatActivity
